@@ -154,9 +154,34 @@
             document.getElementById('success-screen').classList.remove('hidden');
         }
 
-        function goHome() {
-            window.location.href = "#"; // Change to your main page URL
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(value);
         }
+
+        function initializeConfirmData() {
+            const params = new URLSearchParams(window.location.search);
+            const celebrity = params.get('celebrity') || 'Michael Lynx';
+            const votes = Math.max(1, Number(params.get('votes')) || 1);
+            const price = Number(params.get('price')) || 500;
+            const total = Number(params.get('total')) || votes * price;
+
+            document.getElementById('celeb-name').textContent = celebrity;
+            document.getElementById('total-amount').textContent = formatCurrency(total);
+        }
+
+        function goHome() {
+            window.location.href = "index.html";
+        }
+
+        window.addEventListener('load', () => {
+            if (localStorage.getItem('theme') === 'dark') setTheme(true);
+            initializeConfirmData();
+        });
     </script>
 </body>
 </html>

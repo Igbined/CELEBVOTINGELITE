@@ -21,7 +21,8 @@
             </h1>
             
             <button id="theme-toggle" class="w-10 h-10 flex items-center justify-center rounded-2xl bg-slate-100 hover:bg-slate-200 dark:bg-white/10 dark:hover:bg-white/20 transition-all">
-                <i id="theme-icon" data-lucide="moon" class="w-5 h-5"></i>
+                <i data-lucide="moon" class="w-5 h-5 theme-icon-moon"></i>
+                <i data-lucide="sun" class="w-5 h-5 theme-icon-sun hidden"></i>
             </button>
         </nav>
     </header>
@@ -36,7 +37,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
             <!-- Michael Lynx -->
-            <div x-data="{ votes: 1, price: 500 }" class="group bg-white dark:bg-black rounded-3xl p-8 shadow-sm border border-slate-200 dark:border-white/10 hover:shadow-xl hover:border-blue-200 dark:hover:border-blue-600 transition-all duration-300">
+            <div x-data="{ votes: 1, price: 500 }" data-celeb="Michael Lynx" data-price="500" class="group bg-white dark:bg-black rounded-3xl p-8 shadow-sm border border-slate-200 dark:border-white/10 hover:shadow-xl hover:border-blue-200 dark:hover:border-blue-600 transition-all duration-300">
                 <div class="w-full h-56 bg-gradient-to-br from-amber-100 to-orange-100 dark:from-zinc-900 dark:to-black rounded-2xl mb-6 flex items-center justify-center text-amber-500 overflow-hidden relative">
                     <i data-lucide="user" class="w-20 h-20"></i>
                 </div>
@@ -52,14 +53,14 @@
                         <span class="text-slate-500 dark:text-zinc-400 font-medium">Total Vote:</span>
                         <span class="text-3xl font-bold text-blue-600">$<span x-text="(votes * price).toLocaleString()"></span></span>
                     </div>
-                    <button class="w-full bg-slate-900 dark:bg-white dark:text-black text-white py-4 rounded-2xl font-semibold hover:bg-blue-600 dark:hover:bg-blue-600 transition-all active:scale-95 flex items-center justify-center gap-2">
+                    <button type="button" class="w-full bg-slate-900 dark:bg-white dark:text-black text-white py-4 rounded-2xl font-semibold hover:bg-blue-600 dark:hover:bg-blue-600 transition-all active:scale-95 flex items-center justify-center gap-2 confirm-purchase">
                         Confirm Purchase <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </button>
                 </div>
             </div>
 
             <!-- Mitchell Ikechukwu Ogbonna -->
-            <div x-data="{ votes: 1, price: 500 }" class="group bg-white dark:bg-black rounded-3xl p-8 shadow-sm border border-slate-200 dark:border-white/10 hover:shadow-xl hover:border-blue-200 dark:hover:border-blue-600 transition-all duration-300">
+            <div x-data="{ votes: 1, price: 500 }" data-celeb="Mitchell Ikechukwu Ogbonna" data-price="500" class="group bg-white dark:bg-black rounded-3xl p-8 shadow-sm border border-slate-200 dark:border-white/10 hover:shadow-xl hover:border-blue-200 dark:hover:border-blue-600 transition-all duration-300">
                 <div class="w-full h-56 bg-gradient-to-br from-emerald-100 to-teal-100 dark:from-zinc-900 dark:to-black rounded-2xl mb-6 flex items-center justify-center text-teal-500 overflow-hidden relative">
                     <i data-lucide="user" class="w-20 h-20"></i>
                 </div>
@@ -75,14 +76,14 @@
                         <span class="text-slate-500 dark:text-zinc-400 font-medium">Total Vote:</span>
                         <span class="text-3xl font-bold text-blue-600">$<span x-text="(votes * price).toLocaleString()"></span></span>
                     </div>
-                    <button class="w-full bg-slate-900 dark:bg-white dark:text-black text-white py-4 rounded-2xl font-semibold hover:bg-blue-600 dark:hover:bg-blue-600 transition-all active:scale-95 flex items-center justify-center gap-2">
+                    <button type="button" class="w-full bg-slate-900 dark:bg-white dark:text-black text-white py-4 rounded-2xl font-semibold hover:bg-blue-600 dark:hover:bg-blue-600 transition-all active:scale-95 flex items-center justify-center gap-2 confirm-purchase">
                         Confirm Purchase <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </button>
                 </div>
             </div>
 
             <!-- Stephen Odimgbe Emeka -->
-            <div x-data="{ votes: 1, price: 500 }" class="group bg-white dark:bg-black rounded-3xl p-8 shadow-sm border border-slate-200 dark:border-white/10 hover:shadow-xl hover:border-blue-200 dark:hover:border-blue-600 transition-all duration-300">
+            <div x-data="{ votes: 1, price: 500 }" data-celeb="Stephen Odimgbe Emeka" data-price="500" class="group bg-white dark:bg-black rounded-3xl p-8 shadow-sm border border-slate-200 dark:border-white/10 hover:shadow-xl hover:border-blue-200 dark:hover:border-blue-600 transition-all duration-300">
                 <div class="w-full h-56 bg-gradient-to-br from-indigo-100 to-blue-100 dark:from-zinc-900 dark:to-black rounded-2xl mb-6 flex items-center justify-center text-blue-500 overflow-hidden relative">
                     <i data-lucide="user" class="w-20 h-20"></i>
                 </div>
@@ -98,14 +99,14 @@
                         <span class="text-slate-500 dark:text-zinc-400 font-medium">Total Vote:</span>
                         <span class="text-3xl font-bold text-blue-600">$<span x-text="(votes * price).toLocaleString()"></span></span>
                     </div>
-                    <button class="w-full bg-slate-900 dark:bg-white dark:text-black text-white py-4 rounded-2xl font-semibold hover:bg-blue-600 dark:hover:bg-blue-600 transition-all active:scale-95 flex items-center justify-center gap-2">
+                    <button type="button" class="w-full bg-slate-900 dark:bg-white dark:text-black text-white py-4 rounded-2xl font-semibold hover:bg-blue-600 dark:hover:bg-blue-600 transition-all active:scale-95 flex items-center justify-center gap-2 confirm-purchase">
                         Confirm Purchase <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </button>
                 </div>
             </div>
 
             <!-- Freddieleonard -->
-            <div x-data="{ votes: 1, price: 500 }" class="group bg-white dark:bg-black rounded-3xl p-8 shadow-sm border border-slate-200 dark:border-white/10 hover:shadow-xl hover:border-blue-200 dark:hover:border-blue-600 transition-all duration-300">
+            <div x-data="{ votes: 1, price: 500 }" data-celeb="Freddieleonard" data-price="500" class="group bg-white dark:bg-black rounded-3xl p-8 shadow-sm border border-slate-200 dark:border-white/10 hover:shadow-xl hover:border-blue-200 dark:hover:border-blue-600 transition-all duration-300">
                 <div class="w-full h-56 bg-gradient-to-br from-rose-100 to-pink-100 dark:from-zinc-900 dark:to-black rounded-2xl mb-6 flex items-center justify-center text-pink-500 overflow-hidden relative">
                     <i data-lucide="user" class="w-20 h-20"></i>
                 </div>
@@ -121,14 +122,14 @@
                         <span class="text-slate-500 dark:text-zinc-400 font-medium">Total Vote:</span>
                         <span class="text-3xl font-bold text-blue-600">$<span x-text="(votes * price).toLocaleString()"></span></span>
                     </div>
-                    <button class="w-full bg-slate-900 dark:bg-white dark:text-black text-white py-4 rounded-2xl font-semibold hover:bg-blue-600 dark:hover:bg-blue-600 transition-all active:scale-95 flex items-center justify-center gap-2">
+                    <button type="button" class="w-full bg-slate-900 dark:bg-white dark:text-black text-white py-4 rounded-2xl font-semibold hover:bg-blue-600 dark:hover:bg-blue-600 transition-all active:scale-95 flex items-center justify-center gap-2 confirm-purchase">
                         Confirm Purchase <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </button>
                 </div>
             </div>
 
             <!-- Mike Godson -->
-            <div x-data="{ votes: 1, price: 500 }" class="group bg-white dark:bg-black rounded-3xl p-8 shadow-sm border border-slate-200 dark:border-white/10 hover:shadow-xl hover:border-blue-200 dark:hover:border-blue-600 transition-all duration-300">
+            <div x-data="{ votes: 1, price: 500 }" data-celeb="Mike Godson" data-price="500" class="group bg-white dark:bg-black rounded-3xl p-8 shadow-sm border border-slate-200 dark:border-white/10 hover:shadow-xl hover:border-blue-200 dark:hover:border-blue-600 transition-all duration-300">
                 <div class="w-full h-56 bg-gradient-to-br from-purple-100 to-violet-100 dark:from-zinc-900 dark:to-black rounded-2xl mb-6 flex items-center justify-center text-purple-500 overflow-hidden relative">
                     <i data-lucide="user" class="w-20 h-20"></i>
                 </div>
@@ -144,7 +145,7 @@
                         <span class="text-slate-500 dark:text-zinc-400 font-medium">Total Vote:</span>
                         <span class="text-3xl font-bold text-blue-600">$<span x-text="(votes * price).toLocaleString()"></span></span>
                     </div>
-                    <button class="w-full bg-slate-900 dark:bg-white dark:text-black text-white py-4 rounded-2xl font-semibold hover:bg-blue-600 dark:hover:bg-blue-600 transition-all active:scale-95 flex items-center justify-center gap-2">
+                    <button type="button" class="w-full bg-slate-900 dark:bg-white dark:text-black text-white py-4 rounded-2xl font-semibold hover:bg-blue-600 dark:hover:bg-blue-600 transition-all active:scale-95 flex items-center justify-center gap-2 confirm-purchase">
                         Confirm Purchase <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </button>
                 </div>
@@ -188,28 +189,59 @@
         lucide.createIcons();
 
         const themeToggle = document.getElementById('theme-toggle');
-        const themeIcon = document.getElementById('theme-icon');
+        const moonIcon = themeToggle.querySelector('.theme-icon-moon');
+        const sunIcon = themeToggle.querySelector('.theme-icon-sun');
+
+        function updateThemeIcon(isDark) {
+            moonIcon?.classList.toggle('hidden', isDark);
+            sunIcon?.classList.toggle('hidden', !isDark);
+        }
 
         function setTheme(isDark) {
-            if (isDark) {
-                document.documentElement.classList.add('dark');
-                themeIcon.setAttribute('data-lucide', 'sun');
-            } else {
-                document.documentElement.classList.remove('dark');
-                themeIcon.setAttribute('data-lucide', 'moon');
-            }
-            lucide.createIcons();
+            document.documentElement.classList.toggle('dark', isDark);
+            document.body.classList.toggle('dark', isDark);
+            updateThemeIcon(isDark);
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
         }
 
         function initializeTheme() {
             const saved = localStorage.getItem('theme');
-            setTheme(saved === 'dark');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (saved === 'dark' || saved === 'light') {
+                setTheme(saved === 'dark');
+            } else {
+                setTheme(prefersDark);
+            }
         }
 
         themeToggle.addEventListener('click', () => {
             const isDark = document.documentElement.classList.contains('dark');
             setTheme(!isDark);
+        });
+
+        function startPayment(event) {
+            const button = event.currentTarget;
+            const card = button.closest('[data-celeb][data-price]');
+            if (!card) return;
+
+            const celeb = card.dataset.celeb || card.querySelector('h3')?.textContent.trim();
+            const price = Number(card.dataset.price || 0);
+            const input = card.querySelector('input[type="number"]');
+            const votes = Math.max(1, Number(input?.value || 1));
+            const total = votes * price;
+
+            const params = new URLSearchParams({
+                celebrity: celeb,
+                votes: String(votes),
+                price: String(price),
+                total: String(total)
+            });
+
+            window.location.href = `payment.html?${params.toString()}`;
+        }
+
+        document.querySelectorAll('.confirm-purchase').forEach((button) => {
+            button.addEventListener('click', startPayment);
         });
 
         window.addEventListener('load', initializeTheme);

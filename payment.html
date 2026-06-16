@@ -69,7 +69,7 @@
                         <code id="btc-address" class="flex-1 font-mono text-sm break-all text-slate-700 dark:text-zinc-300">
                             bc1qxy2kdyz6p7v5f8z3x9v2w5q8r7t6y5u4i3o2p1
                         </code>
-                        <button onclick="copyAddress()" 
+                        <button onclick="copyAddress(event)" 
                                 class="px-5 py-2.5 bg-white dark:bg-zinc-900 border border-slate-300 dark:border-white/20 rounded-xl hover:bg-slate-100 dark:hover:bg-zinc-800 transition flex items-center gap-2 text-sm font-medium whitespace-nowrap">
                             <i data-lucide="copy" class="w-4 h-4"></i>
                             Copy
@@ -152,13 +152,30 @@
 
         if (localStorage.getItem('theme') === 'dark') setTheme(true);
 
-        // Sample Data
-        document.getElementById('celeb-name').textContent = "Michael Lynx";
-        document.getElementById('vote-qty').textContent = "5";
-        document.getElementById('total-amount').textContent = "$2,500";
-        document.getElementById('modal-celeb').textContent = "Michael Lynx";
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(value);
+        }
 
-        function copyAddress() {
+        function initializePaymentData() {
+            const params = new URLSearchParams(window.location.search);
+            const celebrity = params.get('celebrity') || 'Michael Lynx';
+            const votes = Math.max(1, Number(params.get('votes')) || 1);
+            const price = Number(params.get('price')) || 500;
+            const total = Number(params.get('total')) || votes * price;
+
+            document.getElementById('celeb-name').textContent = celebrity;
+            document.getElementById('vote-qty').textContent = String(votes);
+            document.getElementById('total-amount').textContent = formatCurrency(total);
+            document.getElementById('modal-celeb').textContent = celebrity;
+            document.getElementById('btc-amount').textContent = `${(total / 68000).toFixed(6)} BTC`;
+        }
+
+        function copyAddress(event) {
             const address = document.getElementById('btc-address').textContent.trim();
             navigator.clipboard.writeText(address).then(() => {
                 const btn = event.currentTarget;
@@ -173,12 +190,17 @@
         }
 
         function confirmPayment() {
-            document.getElementById('success-modal').classList.remove('hidden');
+            window.location.href = "confirmpayment.html" + window.location.search;
         }
 
         function goToDashboard() {
-            window.location.href = "#"; // Change to your main page
+            window.location.href = "index.html";
         }
+
+        window.addEventListener('load', () => {
+            if (localStorage.getItem('theme') === 'dark') setTheme(true);
+            initializePaymentData();
+        });
     </script>
 </body>
 </html>
