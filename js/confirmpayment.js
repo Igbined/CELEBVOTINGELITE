@@ -115,7 +115,7 @@ function initializeConfirmData() {
 }
 
 function goHome() {
-    window.location.href = 'index.html';
+    window.location.href = 'completeinfo.html';
 }
 
 window.addEventListener('load', () => {
